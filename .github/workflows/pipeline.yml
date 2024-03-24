@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  pull_request:    
+    branches: [main]
+    types: [opened, synchronize]
+
 
 jobs:
   simple_deployment_pipeline:
@@ -26,4 +30,11 @@ jobs:
         with:
           command: npm run test:e2e
           start: npm run start-prod
-          wait-on: http://localhost:5000
+          wait-on: http://localhost:5000    
+        if: ${{ github.event_name == 'push' }}
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.SERVICEID }}
+          api-key: ${{ secrets.RENDERAPI }}
+          wait-for-success: true
