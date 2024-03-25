@@ -42,8 +42,6 @@ jobs:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
     steps:
-      - name: configure docker
-        run: docker run -d --name Runner -v /var/github-runner:/var/github-runner {RunnerImage}
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.64.0
         env:
