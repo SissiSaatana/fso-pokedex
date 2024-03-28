@@ -2,7 +2,7 @@ name: Deployment pipeline
 
 on:
   push:
-    branches: [main]
+    branches: main
   pull_request:    
     branches: [main]
     types: [opened, synchronize]
@@ -37,14 +37,8 @@ jobs:
           service-id: ${{ secrets.SERVICEID }}
           api-key: ${{ secrets.RENDERAPI }}
           wait-for-success: true
-  tag_release:
-    needs: [simple_deployment_pipeline]
-    runs-on: ubuntu-20.04
-    steps:
-      - name: init git
-        run: ls -l
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.64.0
         env:
-          DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: main
